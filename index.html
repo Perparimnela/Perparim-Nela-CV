@@ -1,21 +1,48 @@
-
 <!DOCTYPE html>
 <html lang="sq">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Përparim Nela - CV</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>CV Creator - Portofolio Interaktiv</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@1.43.1/tsparticles.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      background: #000;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: white;
-      overflow-x: hidden;
+    :root {
+      --primary-bg: #0f0f23;
+      --primary-text: #ffffff;
+      --accent-1: #ff0000;
+      --accent-2: #ffcc00;
+      --accent-3: #000000;
+      --terminal-bg: rgba(30, 30, 30, 0.8);
+      --terminal-header: rgba(45, 45, 48, 0.8);
+      --terminal-text: #cccccc;
+      --terminal-close: #ff5f56;
+      --terminal-minimize: #ffbd2e;
+      --terminal-maximize: #27c93f;
+      --terminal-prompt: #00ff00;
     }
-    #particles-js {
+    
+    * {
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(135deg, #000000 0%, #1a1a2e 50%, #16213e 100%);
+      color: #fff;
+      overflow-x: hidden;
+      cursor: default;
+      touch-action: manipulation;
+    }
+    
+    #tsparticles {
       position: fixed;
       top: 0;
       left: 0;
@@ -23,190 +50,2149 @@
       height: 100%;
       z-index: -1;
     }
-    header {
-      background-color: rgba(255, 206, 0, 0.8);
-      padding: 1rem;
-      text-align: center;
-      color: black;
-    }
-    header h1 {
-      margin: 0;
-      font-size: 2.5rem;
-    }
-    header h2 {
-      margin: 0.5rem 0 0;
-      font-size: 1.4rem;
-    }
-    .container {
+    
+    .app-container {
       display: flex;
-      flex-wrap: wrap;
-      max-width: 1200px;
-      margin: 2rem auto;
-      background: rgba(0, 0, 0, 0.8);
-      border-radius: 12px;
-      padding: 2rem;
+      min-height: 100vh;
+      flex-direction: column;
     }
-    .left, .right {
-      flex: 1;
-      min-width: 300px;
-      padding: 1rem;
+    
+    .design-panel {
+      width: 100%;
+      background: rgba(30, 30, 30, 0.9);
+      padding: 10px 5px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 2px solid var(--accent-1);
+      box-shadow: 0 3px 10px rgba(255, 0, 0, 0.3);
+      position: relative;
+      z-index: 10;
     }
-    .profile-wrapper {
-      text-align: center;
+    
+    .design-option {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin: 0 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+      position: relative;
+      overflow: hidden;
+      background: #000;
     }
-    .profile-pic {
-      width: 180px;
-      height: 180px;
+    
+    .design-option:hover {
+      transform: scale(1.1);
+    }
+    
+    .design-option.active {
+      border: 2px solid white;
+      box-shadow: 0 0 10px white;
+    }
+    
+    .design-logo {
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
       object-fit: cover;
-      border: 4px solid black;
-      box-shadow:
-        0 0 0 8px red,
-        0 0 0 16px gold;
     }
-    h3 {
-      color: #ffce00;
-      margin-top: 1.5rem;
-    }
-    ul {
-      padding-left: 1.2rem;
-    }
-    ul li {
-      margin-bottom: 0.4rem;
-    }
-    footer {
-      text-align: center;
-      color: white;
-      padding: 1rem;
-      font-size: 0.9rem;
-      background-color: #111;
-    }
-    .download-btn {
-      display: inline-block;
-      margin-top: 1rem;
-      padding: 0.6rem 1.2rem;
-      background-color: #ffce00;
-      color: black;
-      text-decoration: none;
-      border-radius: 8px;
+    
+    .design-number {
       font-weight: bold;
+      font-size: 18px;
+      color: white;
+    }
+    
+    .apple-logo {
+      width: 35px;
+      height: 35px;
+      background: linear-gradient(135deg, #00b4db, #0083b0);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 15px rgba(0, 180, 219, 0.7);
+    }
+    
+    .apple-logo::before {
+      content: "";
+      font-family: "Font Awesome 6 Free";
+      font-weight: 900;
+      color: white;
+      font-size: 20px;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    }
+    
+    .apple-logo::after {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transform: rotate(45deg);
+      animation: shine 3s infinite;
+    }
+    
+    .language-option {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      margin: 0 5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+      background: #333;
+      color: white;
+      font-weight: bold;
+    }
+    
+    .language-option.active {
+      border: 2px solid white;
+      box-shadow: 0 0 10px white;
+    }
+    
+    @keyframes shine {
+      0% { transform: translateX(-100%) rotate(45deg); }
+      100% { transform: translateX(100%) rotate(45deg); }
+    }
+    
+    .window-controls {
+      display: none; /* Fsheh butonat X, Minus, Katror */
+    }
+    
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 15px;
+    }
+    
+    .container {
+      max-width: 1000px;
+      width: 100%;
+      margin: 15px auto;
+      padding: 20px;
+      background: rgba(15, 15, 35, 0.8);
+      border-radius: 15px;
+      box-shadow: 0 0 20px var(--accent-1);
+      position: relative;
+      z-index: 1;
+      border: 2px solid var(--accent-1);
+      color: var(--primary-text);
+      transition: all 0.5s ease;
+    }
+    
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      color: var(--accent-2);
+      text-align: center;
+      font-size: 28px; /* Madhësia e emrit 28px */
+      margin-bottom: 5px;
+      text-shadow: 0 0 5px rgba(255, 204, 0, 0.5);
+    }
+    
+    h2 {
+      font-family: 'Orbitron', sans-serif;
+      color: var(--accent-2);
+      margin-top: 25px;
+      border-bottom: 1px solid var(--accent-1);
+      padding-bottom: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 18px;
+    }
+    
+    h3 {
+      color: var(--accent-2);
+      text-align: center;
+      margin-top: 0;
+      font-size: 18px;
+    }
+    
+    h4 {
+      color: var(--accent-2);
+      margin-top: 0;
+      font-size: 16px;
+    }
+    
+    .profile-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 25px;
+      position: relative;
+    }
+    
+    .profile-image {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 4px solid var(--accent-1);
+      box-shadow: 0 0 15px var(--accent-1);
+      animation: glowPulse 2s infinite alternate;
+      object-fit: cover;
+    }
+    
+    @keyframes glowPulse {
+      from { box-shadow: 0 0 10px var(--accent-1); }
+      to { box-shadow: 0 0 20px var(--accent-2); }
+    }
+    
+    /* Terminal Window Styling - Apple Liquid Glass */
+    .terminal-window {
+      margin-top: 15px;
+      background: var(--terminal-bg);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.6);
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+    }
+    
+    .terminal-window::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 50%, rgba(255, 255, 255, 0.1) 100%);
+      z-index: -1;
+      border-radius: 12px;
+    }
+    
+    .terminal-window:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8);
+    }
+    
+    .terminal-header {
+      background: var(--terminal-header);
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(5px);
+    }
+    
+    .terminal-buttons {
+      display: flex;
+      gap: 6px;
+    }
+    
+    .terminal-button {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    
+    .terminal-close {
+      background: var(--terminal-close);
+    }
+    
+    .terminal-minimize {
+      background: var(--terminal-minimize);
+    }
+    
+    .terminal-maximize {
+      background: var(--terminal-maximize);
+    }
+    
+    .terminal-title {
+      color: var(--terminal-text);
+      font-family: 'Orbitron', monospace;
+      font-size: 12px;
+      flex-grow: 1;
+      text-align: center;
+      margin: 0 8px;
+    }
+    
+    .terminal-body {
+      padding: 15px;
+      color: var(--terminal-text);
+      font-family: 'Courier New', monospace;
+      min-height: 80px;
+      overflow-y: auto;
+      font-size: 14px;
+      transition: min-height 0.3s ease;
+    }
+    
+    .terminal-body.expanded {
+      min-height: 200px;
+    }
+    
+    .terminal-body::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    .terminal-body::-webkit-scrollbar-track {
+      background: #2d2d2d;
+    }
+    
+    .terminal-body::-webkit-scrollbar-thumb {
+      background: #555;
+      border-radius: 3px;
+    }
+    
+    .terminal-body::-webkit-scrollbar-thumb:hover {
+      background: #777;
+    }
+    
+    .terminal-prompt {
+      color: var(--terminal-prompt);
+      margin-right: 8px;
+      text-shadow: 0 0 3px var(--terminal-prompt);
+    }
+    
+    .terminal-command {
+      color: var(--accent-2);
+      text-shadow: 0 0 3px var(--accent-2);
+    }
+    
+    .terminal-output {
+      margin-top: 8px;
+      line-height: 1.4;
+    }
+    
+    .contact-info {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin-top: 15px;
+    }
+    
+    .contact-item {
+      width: 100%;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .contact-item i {
+      margin-right: 8px;
+      color: var(--accent-1);
+      width: 16px;
+      text-align: center;
+    }
+    
+    .skills-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 15px;
+      margin-top: 12px;
+    }
+    
+    .skill-category {
+      background: rgba(50, 50, 50, 0.8);
+      padding: 12px;
+      border-radius: 8px;
+      border-left: 3px solid var(--accent-1);
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    
+    .skill-category:hover {
+      transform: translateX(3px);
+      box-shadow: 0 0 8px var(--accent-1);
+    }
+    
+    .add-skill-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: transparent;
+      border: none;
+      color: var(--accent-2);
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+    
+    .add-skill-btn:hover {
+      color: var(--accent-1);
+      transform: scale(1.1);
+    }
+    
+    .language-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 12px;
+    }
+    
+    .language-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px;
+      background: rgba(50, 50, 50, 0.6);
+      border-radius: 6px;
+      cursor: grab;
+      transition: all 0.3s ease;
+    }
+    
+    .language-item:hover {
+      background: rgba(50, 50, 50, 0.9);
+      transform: scale(1.01);
+    }
+    
+    .language-item:active {
+      cursor: grabbing;
+    }
+    
+    .language-item-handle {
+      cursor: move;
+      font-size: 16px;
+      color: var(--accent-2);
+    }
+    
+    .language-name {
+      min-width: 80px;
+      font-size: 14px;
+    }
+    
+    .language-bar-container {
+      flex: 1;
+      background: #333;
+      height: 8px;
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+    }
+    
+    .language-level {
+      height: 100%;
+      background: linear-gradient(to right, var(--accent-1), var(--accent-2));
+      border-radius: 4px;
+      width: 80%;
+      position: relative;
+    }
+    
+    .language-percentage {
+      min-width: 35px;
+      text-align: right;
+      font-size: 14px;
+    }
+    
+    .language-slider {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+      z-index: 2;
+    }
+    
+    .add-language-btn {
+      background: rgba(50, 50, 50, 0.6);
+      color: var(--accent-2);
+      border: none;
+      border-radius: 6px;
+      padding: 8px 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+    }
+    
+    .add-language-btn:hover {
+      background: rgba(50, 50, 50, 0.9);
+      transform: scale(1.02);
+    }
+    
+    .experience-item {
+      margin-bottom: 15px;
+      padding-left: 15px;
+      border-left: 2px solid var(--accent-1);
+      transition: all 0.3s ease;
+    }
+    
+    .experience-item:hover {
+      border-left: 2px solid var(--accent-2);
+      padding-left: 18px;
+    }
+    
+    .experience-date {
+      color: var(--accent-2);
+      font-weight: bold;
+      margin-bottom: 3px;
+      font-size: 14px;
+    }
+    
+    .experience-role {
+      font-weight: bold;
+      margin-bottom: 3px;
+      color: var(--accent-2);
+      font-size: 14px;
+    }
+    
+    .button {
+      background: linear-gradient(to right, var(--accent-1), var(--accent-2));
+      color: var(--accent-3);
+      padding: 10px 20px;
+      text-align: center;
+      border: none;
+      border-radius: 4px;
+      margin-top: 15px;
+      display: inline-block;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    
+    .button:hover {
+      background: linear-gradient(to right, var(--accent-2), var(--accent-1));
+      transform: scale(1.03);
+      box-shadow: 0 0 10px var(--accent-2);
+    }
+    
+    .print-button {
+      display: block;
+      text-align: center;
+      margin-top: 25px;
+    }
+    
+    .upload-btn {
+      background: var(--accent-1);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 8px;
+      display: inline-block;
+      transition: all 0.3s ease;
+      font-size: 14px;
+    }
+    
+    .upload-btn:hover {
+      background: var(--accent-2);
+      color: var(--accent-3);
+    }
+    
+    .motivation-letter p {
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .edit-button {
+      background: transparent;
+      border: none;
+      color: var(--accent-2);
+      cursor: pointer;
+      font-size: 14px;
+      margin-left: 8px;
+      transition: all 0.3s ease;
+    }
+    
+    .edit-button:hover {
+      color: var(--accent-1);
+      transform: scale(1.1);
+    }
+    
+    .editable {
+      min-height: 20px;
+      padding: 2px 4px;
+      border: 1px dashed transparent;
+      border-radius: 2px;
+      transition: border 0.3s ease;
+      font-size: 14px;
+      -webkit-user-select: text;
+      user-select: text;
+    }
+    
+    .editable:hover {
+      border: 1px dashed var(--accent-2);
+      background: rgba(255, 204, 0, 0.1);
+    }
+    
+    .website-input {
+      display: flex;
+      align-items: center;
+      margin-top: 8px;
+      width: 100%;
+    }
+    
+    .website-input i {
+      margin-right: 8px;
+      color: var(--accent-1);
+    }
+    
+    .website-input input {
+      flex: 1;
+      background: rgba(50, 50, 50, 0.6);
+      border: 1px solid var(--accent-1);
+      border-radius: 4px;
+      padding: 6px 10px;
+      color: white;
+      transition: all 0.3s ease;
+      font-size: 14px;
+    }
+    
+    .website-input input:focus {
+      outline: none;
+      border: 1px solid var(--accent-2);
+      box-shadow: 0 0 8px var(--accent-2);
+    }
+    
+    .social-inputs {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 8px;
+      width: 100%;
+    }
+    
+    .social-input {
+      display: flex;
+      align-items: center;
+    }
+    
+    .social-input i {
+      margin-right: 8px;
+      color: var(--accent-1);
+      width: 16px;
+      text-align: center;
+    }
+    
+    .social-input input {
+      flex: 1;
+      background: rgba(50, 50, 50, 0.6);
+      border: 1px solid var(--accent-1);
+      border-radius: 4px;
+      padding: 6px 10px;
+      color: white;
+      transition: all 0.3s ease;
+      font-size: 14px;
+    }
+    
+    .social-input input:focus {
+      outline: none;
+      border: 1px solid var(--accent-2);
+      box-shadow: 0 0 8px var(--accent-2);
+    }
+    
+    .loading {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      color: white;
+      font-size: 16px;
+    }
+    
+    .spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid var(--accent-1);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 15px;
+    }
+    
+    @keyframes spin {
+     0% { transform: rotate(0deg); }
+     100% { transform: rotate(360deg); }
+    }
+
+    .payment-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .payment-content {
+      background: var(--primary-bg);
+      padding: 20px;
+      border-radius: 12px;
+      border: 2px solid var(--accent-1);
+      box-shadow: 0 0 20px var(--accent-1);
+      max-width: 400px;
+      width: 85%;
+      text-align: center;
+    }
+    
+    .payment-options {
+      display: flex;
+      justify-content: space-around;
+      margin: 15px 0;
+    }
+    
+    .payment-option {
+      background: rgba(50, 50, 50, 0.8);
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid var(--accent-1);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .payment-option:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 10px var(--accent-2);
+    }
+    
+    .payment-option.selected {
+      background: rgba(255, 204, 0, 0.2);
+      border: 2px solid var(--accent-2);
+    }
+    
+    .close-modal {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: none;
+      border: none;
+      color: var(--accent-1);
+      font-size: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .close-modal:hover {
+      color: var(--accent-2);
+      transform: scale(1.1);
+    }
+
+    /* Stilet e reja për animacionet e terminaleve */
+    .terminal-window {
+      transform: perspective(1000px) rotateX(0deg);
+      transition: transform 0.5s ease, box-shadow 0.5s ease;
+    }
+    
+    .terminal-window:hover {
+      transform: perspective(1000px) rotateX(5deg) translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+    }
+    
+    .terminal-header {
+      transition: background 0.3s ease;
+    }
+    
+    .terminal-window:hover .terminal-header {
+      background: rgba(55, 55, 60, 0.9);
+    }
+    
+    /* Stilet e reja për dizajnet */
+    .design-option .design-logo {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      background-size: cover;
+      background-position: center;
+    }
+
+    /* Dizajni 1 - Flamuri Gjerman */
+    .design-1 {
+      --primary-bg: #000000;
+      --primary-text: #ffffff;
+      --accent-1: #ff0000;
+      --accent-2: #ffcc00;
+      --accent-3: #000000;
+      --terminal-bg: rgba(0, 0, 0, 0.8);
+      --terminal-header: rgba(30, 30, 30, 0.9);
+      --terminal-text: #dddddd;
+      --terminal-prompt: #ffcc00;
+    }
+    
+    .design-1 .container {
+      border: 2px solid #ff0000;
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+    }
+    
+    .design-1 h1, .design-1 h2, .design-1 h3, .design-1 h4 {
+      color: #ffcc00;
+      text-shadow: 0 0 10px rgba(255, 204, 0, 0.7);
+    }
+    
+    .design-1 .profile-image {
+      border: 4px solid #ff0000;
+      box-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
+    }
+    
+    .design-1 .terminal-window {
+      border: 1px solid rgba(255, 0, 0, 0.3);
+      box-shadow: 0 5px 25px rgba(255, 0, 0, 0.4);
+    }
+    
+    .design-1 .terminal-window:hover {
+      box-shadow: 0 8px 30px rgba(255, 0, 0, 0.6);
+    }
+    
+    .design-1 .skill-category {
+      border-left: 3px solid #ff0000;
+    }
+    
+    .design-1 .language-level {
+      background: linear-gradient(to right, #ff0000, #ffcc00);
+    }
+    
+    .design-1 .button {
+      background: linear-gradient(to right, #ff0000, #ffcc00);
+    }
+    
+    /* Dizajni 2 - Neon Blu */
+    .design-2 {
+      --primary-bg: #0a0a1a;
+      --primary-text: #ffffff;
+      --accent-1: #0066ff;
+      --accent-2: #00ccff;
+      --accent-3: #000000;
+      --terminal-bg: rgba(10, 10, 30, 0.8);
+      --terminal-header: rgba(20, 20, 40, 0.9);
+      --terminal-text: #ccccff;
+      --terminal-prompt: #00ccff;
+    }
+    
+    .design-2 .container {
+      border: 2px solid #0066ff;
+      box-shadow: 0 0 20px rgba(0, 102, 255, 0.5);
+    }
+    
+    .design-2 h1, .design-2 h2, .design-2 h3, .design-2 h4 {
+      color: #00ccff;
+      text-shadow: 0 0 10px rgba(0, 204, 255, 0.7);
+    }
+    
+    .design-2 .profile-image {
+      border: 4px solid #0066ff;
+      box-shadow: 0 0 15px rgba(0, 102, 255, 0.7);
+    }
+    
+    .design-2 .terminal-window {
+      border: 1px solid rgba(0, 102, 255, 0.3);
+      box-shadow: 0 5px 25px rgba(0, 102, 255, 0.4);
+    }
+    
+    .design-2 .terminal-window:hover {
+      box-shadow: 0 8px 30px rgba(0, 102, 255, 0.6);
+    }
+    
+    .design-2 .skill-category {
+      border-left: 3px solid #0066ff;
+    }
+    
+    .design-2 .language-level {
+      background: linear-gradient(to right, #0066ff, #00ccff);
+    }
+    
+    .design-2 .button {
+      background: linear-gradient(to right, #0066ff, #00ccff);
+    }
+    
+    /* Dizajni 3 - Matrix */
+    .design-3 {
+      --primary-bg: #000000;
+      --primary-text: #00ff00;
+      --accent-1: #00ff00;
+      --accent-2: #00cc00;
+      --accent-3: #000000;
+      --terminal-bg: rgba(0, 20, 0, 0.8);
+      --terminal-header: rgba(0, 30, 0, 0.9);
+      --terminal-text: #00ff00;
+      --terminal-prompt: #00ff00;
+    }
+    
+    .design-3 .container {
+      border: 2px solid #00ff00;
+      box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+    }
+    
+    .design-3 h1, .design-3 h2, .design-3 h3, .design-3 h4 {
+      color: #00ff00;
+      text-shadow: 0 0 10px rgba(0, 255, 0, 0.7);
+    }
+    
+    .design-3 .profile-image {
+      border: 4px solid #00ff00;
+      box-shadow: 0 0 15px rgba(0, 255, 0, 0.7);
+    }
+    
+    .design-3 .terminal-window {
+      border: 1px solid rgba(0, 255, 0, 0.3);
+      box-shadow: 0 5px 25px rgba(0, 255, 0, 0.4);
+    }
+    
+    .design-3 .terminal-window:hover {
+      box-shadow: 0 8px 30px rgba(0, 255, 0, 0.6);
+    }
+    
+    .design-3 .skill-category {
+      border-left: 3px solid #00ff00;
+    }
+    
+    .design-3 .language-level {
+      background: linear-gradient(to right, #00ff00, #00cc00);
+    }
+    
+    .design-3 .button {
+      background: linear-gradient(to right, #00ff00, #00cc00);
+      color: #000000;
+    }
+    
+    /* Dizajni 4 - Klasik/Profesional */
+    .design-4 {
+      --primary-bg: #f8f9fa;
+      --primary-text: #2c3e50;
+      --accent-1: #3498db;
+      --accent-2: #2c3e50;
+      --accent-3: #ffffff;
+      --terminal-bg: rgba(255, 255, 255, 0.9);
+      --terminal-header: rgba(236, 240, 241, 0.9);
+      --terminal-text: #2c3e50;
+      --terminal-prompt: #3498db;
+    }
+    
+    .design-4 .container {
+      border: 1px solid #ddd;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      background: #fff;
+      color: #2c3e50;
+    }
+    
+    .design-4 h1, .design-4 h2, .design-4 h3, .design-4 h4 {
+      color: #2c3e50;
+      text-shadow: none;
+      font-family: 'Roboto', sans-serif;
+    }
+    
+    .design-4 h2 {
+      border-bottom: 2px solid #3498db;
+      padding-bottom: 8px;
+    }
+    
+    .design-4 .profile-image {
+      border: 3px solid #3498db;
+      box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+    }
+    
+    .design-4 .terminal-window {
+      border: 1px solid #ddd;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      background: #fff;
+    }
+    
+    .design-4 .terminal-window:hover {
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    }
+    
+    .design-4 .terminal-header {
+      background: #ecf0f1;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    .design-4 .terminal-body {
+      color: #2c3e50;
+    }
+    
+    .design-4 .skill-category {
+      background: #f8f9fa;
+      border-left: 3px solid #3498db;
+    }
+    
+    .design-4 .language-level {
+      background: linear-gradient(to right, #3498db, #2c3e50);
+    }
+    
+    .design-4 .button {
+      background: linear-gradient(to right, #3498db, #2c3e50);
+      color: white;
+    }
+    
+    .design-4 .contact-item i {
+      color: #3498db;
+    }
+    
+    .design-4 .experience-item {
+      border-left: 2px solid #3498db;
+    }
+    
+    .design-4 .experience-item:hover {
+      border-left: 2px solid #2c3e50;
+    }
+    
+    .design-4 .add-language-btn {
+      background: #ecf0f1;
+      color: #3498db;
+    }
+    
+    .design-4 .language-item {
+      background: #f8f9fa;
+    }
+    
+    .design-4 .language-bar-container {
+      background: #ddd;
+    }
+    
+    /* Stile të reja për layout klasik */
+    .classic-layout {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    
+    .classic-main {
+      flex: 2;
+      min-width: 300px;
+    }
+    
+    .classic-sidebar {
+      flex: 1;
+      min-width: 250px;
+    }
+    
+    .classic-section {
+      margin-bottom: 25px;
+    }
+    
+    .classic-section h3 {
+      margin-bottom: 15px;
+      color: #3498db;
+      border-bottom: 1px solid #3498db;
+      padding-bottom: 5px;
+      font-family: 'Roboto', sans-serif;
+    }
+    
+    .classic-list {
+      list-style-type: none;
+      padding: 0;
+    }
+    
+    .classic-list li {
+      margin-bottom: 8px;
+      padding-left: 15px;
+      position: relative;
+    }
+    
+    .classic-list li:before {
+      content: "•";
+      color: #3498db;
+      position: absolute;
+      left: 0;
+    }
+    
+    .classic-skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    
+    .classic-skill-item {
+      background: #ecf0f1;
+      padding: 5px 10px;
+      border-radius: 3px;
+      font-size: 14px;
+    }
+    
+    /* Stilet e reja për terminalet në dizajnin klasik */
+    .design-4 .terminal-window {
+      background: transparent;
+      box-shadow: none;
+      border: none;
+      border-radius: 0;
+    }
+    
+    .design-4 .terminal-header {
+      display: none;
+    }
+    
+    .design-4 .terminal-body {
+      padding: 0;
+      min-height: auto;
+    }
+    
+    .design-4 .terminal-prompt, .design-4 .terminal-command {
+      display: none;
+    }
+    
+    .design-4 .terminal-output {
+      margin-top: 0;
+    }
+    
+    /* Dizajni 5 - Cyberpunkt 2 */
+    .design-5 {
+      --primary-bg: #1a0a1a;
+      --primary-text: #ff6600;
+      --accent-1: #ff6600;
+      --accent-2: #ffcc00;
+      --accent-3: #000000;
+      --terminal-bg: rgba(30, 10, 20, 0.8);
+      --terminal-header: rgba(40, 15, 25, 0.9);
+      --terminal-text: #ff6600;
+      --terminal-prompt: #ffcc00;
+    }
+    
+    .design-5 .container {
+      border: 2px solid #ff6600;
+      box-shadow: 0 0 20px rgba(255, 102, 0, 0.5);
+    }
+    
+    .design-5 h1, .design-5 h2, .design-5 h3, .design-5 h4 {
+      color: #ffcc00;
+      text-shadow: 0 0 10px rgba(255, 204, 0, 0.7);
+    }
+    
+    .design-5 .profile-image {
+      border: 4px solid #ff6600;
+      box-shadow: 0 0 15px rgba(255, 102, 0, 0.7);
+    }
+    
+    .design-5 .terminal-window {
+      border: 1px solid rgba(255, 102, 0, 0.3);
+      box-shadow: 0 5px 25px rgba(255, 102, 0, 0.4);
+    }
+    
+    .design-5 .terminal-window:hover {
+      box-shadow: 0 8px 30px rgba(255, 102, 0, 0.6);
+    }
+    
+    .design-5 .skill-category {
+      border-left: 3px solid #ff6600;
+    }
+    
+    .design-5 .language-level {
+      background: linear-gradient(to right, #ff6600, #ffcc00);
+    }
+    
+    .design-5 .button {
+      background: linear-gradient(to right, #ff6600, #ffcc00);
+      color: #000000;
+    }
+    
+    /* Dizajni 6 - Kali Linux */
+    .design-6 {
+      --primary-bg: #000000;
+      --primary-text: #ffffff;
+      --accent-1: #007aff;
+      --accent-2: #00ff9d;
+      --accent-3: #000000;
+      --terminal-bg: rgba(0, 30, 60, 0.8);
+      --terminal-header: rgba(0, 40, 80, 0.9);
+      --terminal-text: #ffffff;
+      --terminal-prompt: #00ff9d;
+    }
+    
+    .design-6 .container {
+      border: 2px solid #007aff;
+      box-shadow: 0 0 20px rgba(0, 122, 255, 0.5);
+    }
+    
+    .design-6 h1, .design-6 h2, .design-6 h3, .design-6 h4 {
+      color: #00ff9d;
+      text-shadow: 0 0 10px rgba(0, 255, 157, 0.7);
+    }
+    
+    .design-6 .profile-image {
+      border: 4px solid #007aff;
+      box-shadow: 0 0 15px rgba(0, 122, 255, 0.7);
+    }
+    
+    .design-6 .terminal-window {
+      border: 1px solid rgba(0, 122, 255, 0.3);
+      box-shadow: 0 5px 25px rgba(0, 122, 255, 0.4);
+    }
+    
+    .design-6 .terminal-window:hover {
+      box-shadow: 0 8px 30px rgba(0, 122, 255, 0.6);
+    }
+    
+    .design-6 .skill-category {
+      border-left: 3px solid #007aff;
+    }
+    
+    .design-6 .language-level {
+      background: linear-gradient(to right, #007aff, #00ff9d);
+    }
+    
+    .design-6 .button {
+      background: linear-gradient(to right, #007aff, #00ff9d);
+      color: #000000;
+    }
+    
+    /* Dizajni 7 - Liquid Glass */
+    .design-7 {
+      --primary-bg: #f5f5f7;
+      --primary-text: #333333;
+      --accent-1: #007aff;
+      --accent-2: #5ac8fa;
+      --accent-3: #ffffff;
+      --terminal-bg: rgba(245, 245, 247, 0.8);
+      --terminal-header: rgba(230, 230, 235, 0.9);
+      --terminal-text: #333333;
+      --terminal-prompt: #007aff;
+    }
+    
+    .design-7 .container {
+      border: 2px solid #007aff;
+      box-shadow: 0 0 20px rgba(0, 122, 255, 0.3);
+      background: rgba(245, 245, 247, 0.9);
+      color: #333333;
+    }
+    
+    .design-7 h1, .design-7 h2, .design-7 h3, .design-7 h4 {
+      color: #007aff;
+      text-shadow: 0 0 5px rgba(0, 122, 255, 0.3);
+    }
+    
+    .design-7 .profile-image {
+      border: 4px solid #007aff;
+      box-shadow: 0 0 15px rgba(0, 122, 255, 0.3);
+    }
+    
+    .design-7 .terminal-window {
+      border: 1px solid rgba(0, 122, 255, 0.3);
+      box-shadow: 0 5px 25px rgba(0, 122, 255, 0.2);
+    }
+    
+    .design-7 .terminal-window:hover {
+      box-shadow: 0 8px 30px rgba(0, 122, 255, 0.3);
+    }
+    
+    .design-7 .skill-category {
+      border-left: 3px solid #007aff;
+      background: rgba(230, 230, 235, 0.8);
+    }
+    
+    .design-7 .language-level {
+      background: linear-gradient(to right, #007aff, #5ac8fa);
+    }
+    
+    .design-7 .button {
+      background: linear-gradient(to right, #007aff, #5ac8fa);
+      color: #ffffff;
+    }
+    
+    .design-7 .language-item {
+      background: rgba(230, 230, 235, 0.6);
+    }
+    
+    .design-7 .contact-item i {
+      color: #007aff;
+    }
+    
+    .design-7 .experience-item {
+      border-left: 2px solid #007aff;
+    }
+    
+    .design-7 .experience-item:hover {
+      border-left: 2px solid #5ac8fa;
+    }
+    
+    .design-7 .terminal-body {
+      color: #333333;
+    }
+    
+    .design-7 .terminal-header {
+      background: rgba(230, 230, 235, 0.9);
+    }
+    
+    .design-7 .terminal-title {
+      color: #333333;
+    }
+    
+    .design-7 .website-input input {
+      background: rgba(230, 230, 235, 0.6);
+      color: #333333;
+      border: 1px solid #007aff;
+    }
+    
+    .design-7 .add-language-btn {
+      background: rgba(230, 230, 235, 0.6);
+      color: #007aff;
+    }
+    
+    .design-7 .language-bar-container {
+      background: #d1d1d6;
+    }
+
+    /* Stilet për printim - fsheh butonat e shtimit */
+    @media print {
+      .add-language-btn, .add-skill-btn, .upload-btn, .edit-button,
+      .design-panel, .window-controls, .payment-modal, .print-button,
+      .social-inputs {
+        display: none !important;
+      }
+      
+      .terminal-body {
+        min-height: auto !important;
+        max-height: none !important;
+      }
+      
+      .language-slider {
+        display: none;
+      }
+      
+      /* Fsheh rrjete sociale nëse nuk janë plotësuar */
+      .social-input:not(:has(input[value])) {
+        display: none !important;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .app-container {
+        flex-direction: row;
+      }
+      
+      .design-panel {
+        width: 80px;
+        height: 100vh;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding: 20px 10px;
+        border-right: 2px solid var(--accent-1);
+        border-bottom: none;
+        box-shadow: 3px 0 10px rgba(255, 0, 0, 0.3);
+        position: fixed;
+        left: 0;
+        top: 0;
+        z-index: 10;
+      }
+      
+      .design-option {
+        width: 50px;
+        height: 50px;
+        margin: 15px 0;
+      }
+      
+      .design-logo {
+        width: 40px;
+        height: 40px;
+      }
+      
+      .design-number {
+        font-size: 20px;
+      }
+      
+      .apple-logo {
+        width: 45px;
+        height: 45px;
+      }
+      
+      .apple-logo::before {
+        font-size: 24px;
+      }
+      
+      .language-option {
+        width: 40px;
+        height: 40px;
+        margin: 10px 0;
+        font-size: 16px;
+      }
+      
+      .contact-item {
+        width: 48%;
+      }
+      
+      .skills-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      }
+      
+      .container {
+        padding: 30px;
+        margin-left: 100px; /* Lëviz përmbajtjen në të djathtë për shkak të panelit fiks */
+      }
+      
+      h1 {
+        font-size: 28px; /* Madhësia e emrit 28px */
+      }
+      
+      h2 {
+        font-size: 22px;
+      }
+      
+      h3 {
+        font-size: 20px;
+      }
+      
+      h4 {
+        font-size: 18px;
+      }
+      
+      .profile-image {
+        width: 150px;
+        height: 150px;
+      }
+      
+      .terminal-body {
+        padding: 20px;
+        font-size: 16px;
+      }
+      
+      .terminal-title {
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 15px;
+        margin: 10px auto;
+      }
+      
+      h1 {
+        font-size: 28px; /* Madhësia e emrit 28px */
+      }
+      
+      .design-option {
+        width: 35px;
+        height: 35px;
+        margin: 0 5px;
+      }
+      
+      .design-logo {
+        width: 25px;
+        height: 25px;
+      }
+      
+      .design-number {
+        font-size: 16px;
+      }
+      
+      .apple-logo {
+        width: 30px;
+        height: 30px;
+      }
+      
+      .apple-logo::before {
+        font-size: 16px;
+      }
+      
+      .language-option {
+        width: 30px;
+        height: 30px;
+        margin: 0 3px;
+        font-size: 12px;
+      }
+      
+      .window-controls {
+        top: 10px;
+        left: 10px;
+      }
+      
+      .window-button {
+        width: 10px;
+        height: 10px;
+      }
     }
   </style>
 </head>
-<body>
-<div id="particles-js"></div>
-<header>
-  <h1>Përparim Nela</h1>
-  <h2>Elektroteknik / Elektricist</h2>
-</header>
-<div class="container">
-  <div class="left">
-    <h3>Kontakt</h3>
-    <p>Email: perparimnela08@icloud.com<br>
-    Tel: +355 69 63 08 444<br>
-    Vendbanimi: Lushnje, Shqipëri<br>
-    Datëlindja: 03/08/1994</p>
-    <h3>Aftësi Teknike</h3>
-    <ul>
-      <li>Menaxhimi i punës</li>
-      <li>Shpërndarja e detyrave</li>
-      <li>Zbatimi i projektit</li>
-      <li>Komunikimi me klientin</li>
-      <li>Instalime elektrike civile & industriale</li>
-      <li>Rryma të vogla, citofoni, kamera, internet</li>
-    </ul>
-    <h3>Gjuhët</h3>
-    <ul>
-      <li>Gjermanisht - 8/10</li>
-      <li>Anglisht - 4/10</li>
-      <li>Italisht - 4/10</li>
-      <li>Frëngjisht - 1/10</li>
-    </ul>
-    <h3>Certifikata</h3>
-    <ul>
-      <li>Certifikatë A1 Gjermanisht – Tür an Tür (Augsburg)</li>
-      <li>Olimpiada Profesionale – Megatek</li>
-      <li>Smart Home KNX</li>
-    </ul>
+<body class="design-1">
+  <!-- Shfaq loading kur PDF po gjenerohet -->
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    <p>Po gjenerohet PDF, ju lutem prisni...</p>
   </div>
-  <div class="right">
-    <div class="profile-wrapper">
-      <img class="profile-pic" src="https://cdn.cara.app/cdn-cgi/image/width=600/production/profiles/b8dae7bc-5287-4490-8a98-03dbdc0a60ca/F64D1605-99C9-4F5D-BB75-B7F0843B0789.jpg" alt="Foto Përparim Nela">
-    </div>
-    <h3>Eksperienca Profesionale</h3>
-    <p><strong>2015 - 2024</strong><br>
-    Eksperiencë në objekte civile dhe industriale, me fokus në punë elektrike si elektricist privat. Punë në Itali dhe Belgjikë. Aktualisht punë në SOPISHPK - Tiranë (elektrikë industriale 3-fazore).</p>
-    <h3>Arsimi</h3>
-    <ul>
-      <li>2010 - 2016 – Shkolla Mekanike, Lushnje</li>
-      <li>2001 - 2009 – Shkolla fillore</li>
-    </ul>
-    <h3>Aftësi Kompjuterike</h3>
-    <ul>
-      <li>Microsoft Word</li>
-      <li>Adobe Photoshop</li>
-      <li>AutoDesk Maya</li>
-      <li>KeyShot</li>
-      <li>Google SketchUP</li>
-      <li>Kali Linux</li>
-      <li>Video Editing</li>
-    </ul>
-    <h3>Interesa</h3>
-    <ul>
-      <li>Libra</li><li>Noti</li>
-      <li>CrossFit</li><li>Joga</li>
-      <li>Fotografi</li><li>AI</li>
-    </ul>
-    <h3>Letër Motivimi</h3>
-    <p>Jam një profesionist i përkushtuar dhe i specializuar në fushën e instalimeve elektrike me një përvojë të gjatë dhe të larmishme në ambiente civile dhe industriale. Përkushtimi ndaj saktësisë në punë, njohuritë teknike dhe përvoja ndërkombëtare më bëjnë një kandidat të denjë për çdo projekt profesional.</p>
-    <p>Qëllimi im është të kontribuoj në projekte cilësore, të punoj me përkushtim dhe të ruaj komunikim të shkëlqyer me klientët. Aftësia për t’u përshtatur shpejt me teknologjitë e reja dhe përkushtimi im ndaj punës janë vlera që i sjell në çdo angazhim të ri profesional.</p>
-    <a class="download-btn" href="Perparim-Nela-CV.pdf" download>Shkarko CV në PDF</a>
-  </div>
-</div>
-<footer>
-  © 2025 Përparim Nela. Të gjitha të drejtat e rezervuara.
-</footer>
 
-<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-<script>
-particlesJS("particles-js", {
-  "particles": {
-    "number": { "value": 100, "density": { "enable": true, "value_area": 800 } },
-    "color": { "value": "#ffffff" },
-    "shape": { "type": "circle" },
-    "opacity": { "value": 0.4 },
-    "size": { "value": 3 },
-    "line_linked": {
-      "enable": true,
-      "distance": 100,
-      "color": "#ffffff",
-      "opacity": 0.4,
-      "width": 1
-    },
-    "move": {
-      "enable": true,
-      "speed": 1.5,
-      "direction": "none",
-      "random": true,
-      "straight": false,
-      "out_mode": "out",
-      "bounce": false
+  <!-- Modal pagese -->
+  <div class="payment-modal" id="payment-modal">
+    <div class="payment-content">
+      <button class="close-modal" onclick="closePaymentModal()">&times;</button>
+      <h2>𝐏ë𝐫 𝐭ë 𝐬𝐡𝐤𝐚𝐫𝐤𝐮𝐚𝐫 𝐂𝐕-𝐧ë 𝐭𝐮𝐚𝐣, 𝐣𝐮 𝐥𝐮𝐭𝐞𝐦 𝐏𝐀𝐆𝐔𝐀𝐍𝐈 𝐭𝐢𝐥𝐞𝐟𝐨𝐧𝐢𝐤𝐮𝐧!</h2>
+      <div class="payment-options">
+        <div class="payment-option selected" onclick="selectPayment(5)">
+          <h3>5€</h3>
+          <p>Shkarko CV-në tënde</p>
+        </div>
+      </div>
+      <button class="button" onclick="processPayment()">Paguaj dhe Shkarko</button>
+    </div>
+  </div>
+
+  <!-- tsParticles container -->
+  <div id="tsparticles"></div>
+
+  <!-- Window Controls - I fshehur sipas kërkesës -->
+  <div class="window-controls">
+    <div class="window-button window-close"></div>
+    <div class="window-button window-minimize"></div>
+    <div class="window-button window-maximize"></div>
+  </div>
+
+  <div class="app-container">
+    <div class="design-panel">
+      <div class="design-option active" data-design="1">
+        <div class="design-logo" style="background-image: url('https://png.pngtree.com/png-vector/20210910/ourmid/pngtree-germany-flag-png-with-transparent-background-png-image_3918426.jpg')"></div>
+      </div>
+      <div class="design-option" data-design="2">
+        <div class="design-logo" style="background-image: url('https://img.freepik.com/free-vector/abstract-light-movement-background_23-2148344066.jpg')"></div>
+      </div>
+      <div class="design-option" data-design="3">
+        <div class="design-logo" style="background-image: url('https://media.wired.com/photos/5ca648a330f00e47fd82ae77/master/pass/Culture_Matrix_Code_corridor.jpg')"></div>
+      </div>
+      <!-- Dizajni i ri i 4-të -->
+      <div class="design-option" data-design="4">
+        <div class="design-logo" style="background: linear-gradient(to right, #3498db, #2c3e50); display: flex; align-items: center; justify-content: center;">
+          <span style="color: white; font-weight: bold;">CV</span>
+        </div>
+      </div>
+      <div class="design-option" data-design="5">
+        <div class="design-logo" style="background-image: url('https://as2.ftcdn.net/jpg/05/62/28/97/1000_F_562289793_VFdanMUrAB5qDHi1PJppIyp2PVf1Ag44.jpg')"></div>
+      </div>
+      <div class="design-option" data-design="6">
+        <div class="design-logo" style="background-image: url('https://e0.pxfuel.com/wallpapers/596/403/desktop-wallpaper-kali-linux.jpg')"></div>
+      </div>
+      <div class="design-option" data-design="7">
+        <div class="design-logo" style="background-image: url('https://static.tecnichenuove.it/01net/2025/08/Apple-iPhone.jpg')"></div>
+      </div>
+      <div class="language-option active" title="Shqip" onclick="changeLanguage('sq')">
+        SQ
+      </div>
+      <div class="language-option" title="English" onclick="changeLanguage('en')">
+        EN
+      </div>
+      <div class="language-option" title="Deutsch" onclick="changeLanguage('de')">
+        DE
+      </div>
+    </div>
+
+    <div class="main-content">
+      <div class="container" id="cv-content">
+        <!-- Përmbajtja do të ndryshohet dinamikisht nga JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Ruaj të dhënat origjinale në shqip
+    const originalTexts = {
+      sq: {
+        // Titullat
+        "personal-info-title": "Informacion Personal",
+        "professional-description-title": "Përshkrim Profesional",
+        "skills-title": "Aftësi",
+        "technical-skills-title": "Aftësi Teknike",
+        "management-skills-title": "Aftësi Menaxhuese",
+        "communication-skills-title": "Aftësi Komunikimi",
+        "languages-title": "Gjuhët",
+        "work-experience-title": "Eksperienca e Punës",
+        "education-title": "Edukimi",
+        "motivation-title": "Letër Motivimi",
+        
+        // Përmbajtja
+        "professional-description": "Elektricist me përvojë 9-vjeçare në instalime elektrike civile dhe industriale, i specializuar në sistemet 3-fazore dhe rryma të vogla. Me eksperiencë ndërkombëtare në projekte të ndryshme, kam zhvilluar një aftësi të veçantë në zgjidhjen e problemeve komplekse elektrike dhe në menaxhimin e projekteve nga fillimi deri në përfundim.",
+        
+        "motivation-letter": `<p>Jam një elektricist me përvojë 9-vjeçare, i specializuar në instalime elektrike civile dhe industriale. Me një pasion të thellë për detajet dhe një përkushtim të palëkundur ndaj cilësisë, unë synoj të siguroj shërbime të shkëlqyera elektrike që tejkalojnë pritshmëritë e klientëve. Eksperienca ime ndërkombëtare më ka dhënë një perspektivë të gjerë të praktikave më të mira në industri.</p>
+        <p>Gjithmonë i fokusuar në zhvillimin profesional, unë vazhdoj të mësoj teknika dhe teknologji të reja për të përmirësuar vazhdimisht shërbimet e mia. Jam i motivuar për të punuar në projekte sfiduese dhe për të kontribuar në suksesin e ekipit tim me një qëndrim pozitiv dhe punë të palodhur.</p>`,
+        
+        // Aftësitë
+        "technical-skills-list": [
+          "Instalime elektrike civile",
+          "Instalime elektrike industriale",
+          "Sistemet 3-fazore",
+          "Rryma të vogla (citofoni, kamera)",
+          "Instalime interneti",
+          "Montim panelesh elektrike"
+        ],
+        "management-skills-list": [
+          "Menaxhimi i ekipit",
+          "Planifikimi i projekteve",
+          "Shpërndarja e detyrave",
+          "Zbatimi i projekteve",
+          "Kontrolli i cilësisë"
+        ],
+        "communication-skills-list": [
+          "Komunikimi me klientët",
+          "Punë në ekip",
+          "Shpjegime teknike",
+          "Mbikëqyrje e stafit"
+        ],
+        
+        // Butonat
+        "upload-photo": "Ngarko foton",
+        "download-cv": "Shkarko CV-në"
+      },
+      en: {
+        // Titullat
+        "personal-info-title": "Personal Information",
+        "professional-description-title": "Professional Description",
+        "skills-title": "Skills",
+        "technical-skills-title": "Technical Skills",
+        "management-skills-title": "Management Skills",
+        "communication-skills-title": "Communication Skills",
+        "languages-title": "Languages",
+        "work-experience-title": "Work Experience",
+        "education-title": "Education",
+        "motivation-title": "Motivation Letter",
+        
+        // Përmbajtja
+        "professional-description": "Electrician with 9 years of experience in civil and industrial electrical installations, specialized in 3-phase systems and low current systems. With international experience in various projects, I have developed a special ability in solving complex electrical problems and in project management from start to finish.",
+        
+        "motivation-letter": `<p>I am an electrician with 9 years of experience, specialized in civil and industrial electrical installations. With a deep passion for details and an unwavering commitment to quality, I aim to provide excellent electrical services that exceed customer expectations. My international experience has given me a broad perspective of the best practices in the industry.</p>
+        <p>Always focused on professional development, I continue to learn new techniques and technologies to continuously improve my services. I am motivated to work on challenging projects and to contribute to the success of my team with a positive attitude and hard work.</p>`,
+        
+        // Aftësitë
+        "technical-skills-list": [
+          "Civil electrical installations",
+          "Industrial electrical installations",
+          "3-phase systems",
+          "Low current systems (intercom, cameras)",
+          "Internet installations",
+          "Electrical panel assembly"
+        ],
+        "management-skills-list": [
+          "Team management",
+          "Project planning",
+          "Task distribution",
+          "Project implementation",
+          "Quality control"
+        ],
+        "communication-skills-list": [
+          "Customer communication",
+          "Teamwork",
+          "Technical explanations",
+          "Staff supervision"
+        ],
+        
+        // Butonat
+        "upload-photo": "Upload photo",
+        "download-cv": "Download CV"
+      },
+      de: {
+        // Titullat
+        "personal-info-title": "Persönliche Informationen",
+        "professional-description-title": "Berufliche Beschreibung",
+        "skills-title": "Fähigkeiten",
+        "technical-skills-title": "Technische Fähigkeiten",
+        "management-skills-title": "Management Fähigkeiten",
+        "communication-skills-title": "Kommunikationsfähigkeiten",
+        "languages-title": "Sprachen",
+        "work-experience-title": "Berufserfahrung",
+        "education-title": "Bildung",
+        "motivation-title": "Motivationsschreiben",
+        
+        // Përmbajtja
+        "professional-description": "Elektriker mit 9 Jahren Erfahrung in zivilen und industriellen Elektroinstallationen, spezialisiert auf 3-Phasen-Systeme und Schwachstromsysteme. Mit internationaler Erfahrung in verschiedenen Projekten habe ich eine besondere Fähigkeit entwickelt, komplexe elektrische Probleme zu lösen und Projekte von Anfang bis Ende zu managen.",
+        
+        "motivation-letter": `<p>Ich bin ein Elektriker mit 9 Jahren Erfahrung, spezialisiert auf zivile und industrielle Elektroinstallationen. Mit einer tiefen Leidenschaft für Details und einem unerschütterlichen Engagement für Qualität strebe ich danach, exzellente elektrische Dienstleistungen zu bieten, die die Erwartungen der Kunden übertreffen. Meine internationale Erfahrung hat mir eine breite Perspektive auf die besten Praktiken in der Branche gegeben.</p>
+        <p>Immer konzentriert auf die berufliche Entwicklung, lerne ich weiterhin neue Techniken und Technologien, um meine Dienstleistungen kontinuierlich zu verbessern. Ich bin motiviert, an anspruchsvollen Projekten zu arbeiten und mit einer positiven Einstellung und harter Arbeit zum Erfolg meines Teams beizutragen.</p>`,
+        
+        // Aftësitë
+        "technical-skills-list": [
+          "Zivile Elektroinstallationen",
+          "Industrielle Elektroinstallationen",
+          "3-Phasen-Systeme",
+          "Schwachstromsysteme (Gegensprechanlage, Kameras)",
+          "Internetinstallationen",
+          "Montage von Elektropaneelen"
+        ],
+        "management-skills-list": [
+          "Teammanagement",
+          "Projektplanung",
+          "Aufgabenverteilung",
+          "Projektdurchführung",
+          "Qualitätskontrolle"
+        ],
+        "communication-skills-list": [
+          "Kundenkommunikation",
+          "Teamarbeit",
+          "Technische Erklärungen",
+          "Personalbeteiligung"
+        ],
+        
+        // Butonat
+        "upload-photo": "Foto hochladen",
+        "download-cv": "Lebenslauf herunterladen"
+      }
+    };
+
+    // Gjuha aktuale
+    let currentLanguage = 'sq';
+    let currentDesign = '1';
+    let originalCVContent = '';
+
+    // Ndrysho gjuhën
+    function changeLanguage(lang) {
+      // Ndrysho klasën aktive për butonat e gjuhëve
+      document.querySelectorAll('.language-option').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      document.querySelector(`.language-option[title="${getLanguageTitle(lang)}"]`).classList.add('active');
+      
+      // Përditëso titullat dhe përmbajtjen
+      updateContent(lang);
+      
+      // Ruaj gjuhën aktuale
+      currentLanguage = lang;
     }
-  },
-  "interactivity": {
-    "detect_on": "canvas",
-    "events": {
-      "onhover": { "enable": true, "mode": "grab" },
-      "onclick": { "enable": true, "mode": "push" },
-      "resize": true
-    },
-    "modes": {
-      "grab": { "distance": 140, "line_linked": { "opacity": 0.7 } },
-      "push": { "particles_nb": 4 }
+
+    // Merr titullin e gjuhës
+    function getLanguageTitle(lang) {
+      const titles = {
+        'sq': 'Shqip',
+        'en': 'English',
+        'de': 'Deutsch'
+      };
+      return titles[lang];
     }
-  },
-  "retina_detect": true
-});
-</script>
+
+    // Përditëso përmbajtjen në bazë të gjuhës
+    function updateContent(lang) {
+      // Përditëso titullat
+      for (const [key, value] of Object.entries(originalTexts[lang])) {
+        if (key.includes('-title')) {
+          const element = document.getElementById(key);
+          if (element) {
+            element.textContent = value;
+          }
+        }
+      }
+      
+      // Përditëso përmbajtjen
+      const professionalDescription = document.getElementById('professional-description');
+      if (professionalDescription && originalTexts[lang]['professional-description']) {
+        professionalDescription.textContent = originalTexts[lang]['professional-description'];
+      }
+      
+      const motivationLetter = document.getElementById('motivation-letter');
+      if (motivationLetter && originalTexts[lang]['motivation-letter']) {
+        motivationLetter.innerHTML = originalTexts[lang]['motivation-letter'];
+      }
+      
+      // Përditëso listën e aftësive
+      updateSkillsList(lang);
+      
+      // Përditëso butonat
+      const uploadButton = document.querySelector('.upload-btn');
+      if (uploadButton && originalTexts[lang]['upload-photo']) {
+        uploadButton.textContent = originalTexts[lang]['upload-photo'];
+      }
+      
+      const downloadButton = document.querySelector('.button');
+      if (downloadButton && originalTexts[lang]['download-cv']) {
+        downloadButton.textContent = originalTexts[lang]['download-cv'];
+      }
+    }
+
+    // Përditëso listën e aftësive
+    function updateSkillsList(lang) {
+      const skillLists = {
+        'technical-skills-list': originalTexts[lang]['technical-skills-list'],
+        'management-skills-list': originalTexts[lang]['management-skills-list'],
+        'communication-skills-list': originalTexts[lang]['communication-skills-list']
+      };
+      
+      for (const [listId, items] of Object.entries(skillLists)) {
+        const listElement = document.getElementById(listId);
+        if (listElement && items) {
+          listElement.innerHTML = '';
+          items.forEach(item => {
+            const li = document.createElement('li');
+            li.textContent = item;
+            li.setAttribute('contenteditable', 'true');
+            li.classList.add('editable');
+            listElement.appendChild(li);
+          });
+        }
+      }
+    }
+
+    // Inicializimi i particles
+    particlesJS("tsparticles", {
+      particles: {
+        number: { value: 80, density: { enable: true, value_area: 800 } },
+        color: { value: "#ff0000" },
+        shape: { type: "circle" },
+        opacity: { value: 0.5, random: true },
+        size: { value: 3, random: true },
+        line_linked: {
+          enable: true,
+          distance: 150,
+          color: "#ffcc00",
+          opacity: 0.4,
+          width: 1
+        },
+        move: {
+          enable: true,
+          speed: 2,
+          direction: "none",
+          random: true,
+          out_mode: "out"
+        }
+      },
+      interactivity: {
+        detect_on: "canvas",
+        events: {
+          onhover: { enable: true, mode: "repulse" },
+          onclick: { enable: true, mode: "push" }
+        }
+      }
+    });
+
+    // Ngarko fotografi - Rregulluar për të funksionuar me PDF
+    function setupPhotoUpload() {
+      const photoUpload = document.getElementById('photo-upload');
+      if (photoUpload) {
+        photoUpload.addEventListener('change', function(event) {
+          const file = event.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              document.getElementById('profile-picture').src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+      }
+    }
+
+    // Funksioni për të ndryshuar dizajnin
+    const designOptions = document.querySelectorAll('.design-option');
+    const body = document.body;
+    const cvContent = document.getElementById('cv-content');
+    
+    // Ruaj përmbajtjen origjinale të CV-së
+    originalCVContent = cvContent.innerHTML;
+    
+    designOptions.forEach(option => {
+      option.addEventListener('click', function() {
+        const design = this.getAttribute('data-design');
+        
+        // Remove all design classes
+        for (let i = 1; i <= 7; i++) {
+          body.classList.remove(`design-${i}`);
+        }
+        
+        // Add selected design class
+        body.classList.add(`design-${design}`);
+        
+        // Update active state
+        designOptions.forEach(opt => opt.classList.remove('active'));
+        this.classList.add('active');
+        
+        // Nëse është dizajni i 4-të, ndrysho layout-in
+        if (design === '4') {
+          applyClassicLayout();
+        } else {
+          removeClassicLayout();
+        }
+        
+        // Update particles color based on design
+        updateParticlesColor(design);
+        
+        // Ruaj dizajnin aktual
+        currentDesign = design;
+      });
+    });
+    
+    // Apliko layout-in klasik për dizajnin e 4-të
+    function applyClassicLayout() {
+      cvContent.innerHTML = `
+        <div class="profile-header">
+          <img src="https://placeholder.pics/svg/150/3498DB-3498DB/FFFFFF-FFFFFF/Profil" alt="Përparim Nela" class="profile-image" id="profile-picture">
+          <div class="profile-name">
+            <h1 contenteditable="true" class="editable">Përparim Nela</h1>
+            <h3 contenteditable="true" class="editable">Elektroteknik / Elektricist</h3>
+          </div>
+          <input type="file" id="photo-upload" accept="image/*" style="display: none;">
+          <div class="upload-btn" onclick="document.getElementById('photo-upload').click()">Ngarko foton</div>
+        </div>
+
+        <div class="classic-layout">
+          <div class="classic-main">
+            <div class="classic-section">
+              <h3>PËRSHKRIM PROFESIONAL</h3>
+              <div contenteditable="true" class="editable">
+                Elektricist me përvojë 9-vjeçare në instalime elektrike civile dhe industriale, i specializuar në sistemet 3-fazore dhe rryma të vogla. Me eksperiencë ndërkombëtare në projekte të ndryshme, kam zhvilluar një aftësi të veçantë në zgjidhjen e problemeve komplekse elektrike dhe në menaxhimin e projekteve nga fillimi deri në përfundim.
+              </div>
+            </div>
+
+            <div class="classic-section">
+              <h3>EKSPERIENCË PUNE</h3>
+              <div contenteditable="true" class="editable">
+                <p><strong>2015 - Prezent</strong><br>
+                <strong>Elektricist i Pavarur</strong><br>
+                Punë e pavarur në instalime elektrike për shtëpi, zyra dhe lokale tregtare. Specializuar në sistemet 3-fazore dhe rryma të vogla.</p>
+
+                <p><strong>2014 - 2015</strong><br>
+                <strong>Ndihmës Elektricist</strong><br>
+                Punë si ndihmës elektricist, mësim i praktikave të instalimeve elektrike dhe shërbimeve të rrymës së vogël.</p>
+              </div>
+            </div>
+
+            <div class="classic-section">
+              <h3>EDUKIM</h3>
+              <div contenteditable="true" class="editable">
+                <p><strong>2009 - 2012</strong><br>
+                <strong>Shkolla e Mesme Teknike</strong><br>
+                Elektroteknik - Specializim në Elektricist</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="classic-sidebar">
+            <div class="classic-section">
+              <h3>INFORMACION PERSONAL</h3>
+              <ul class="classic-list">
+                <li contenteditable="true" class="editable"><strong>Email:</strong> perparimnela08@icloud.com</li>
+                <li contenteditable="true" class="editable"><strong>Telefon:</strong> +355 69 63 08 444</li>
+                <li contenteditable="true" class="editable"><strong>Adresa:</strong> Tiranë, Albania</li>
+                <li contenteditable="true" class="editable"><strong>Datëlindja:</strong> 03/08/1994</li>
+                <li contenteditable="true" class="editable"><strong>Vozitje:</strong> Kategoria C</li>
+              </ul>
+            </div>
+
+            <div class="classic-section">
+              <h3>AFTËSI</h3>
+              <div class="classic-skills">
+                <div class="classic-skill-item" contenteditable="true">Instalime elektrike civile</div>
+                <div class="classic-skill-item" contenteditable="true">Instalime elektrike industriale</div>
+                <div class="classic-skill-item" contenteditable="true">Sistemet 3-fazore</div>
+                <div class="classic-skill-item" contenteditable="true">Rryma të vogla</div>
+                <div class="classic-skill-item" contenteditable="true">Instalime interneti</div>
+                <div class="classic-skill-item" contenteditable="true">Montim panelesh elektrike</div>
+                <div class="classic-skill-item" contenteditable="true">Menaxhim i ekipit</div>
+                <div class="classic-skill-item" contenteditable="true">Planifikim projektesh</div>
+              </div>
+            </div>
+
+            <div class="classic-section">
+              <h3>GJUHËT</h3>
+              <ul class="classic-list">
+                <li contenteditable="true" class="editable"><strong>Gjermanisht:</strong> Shumë mirë</li>
+                <li contenteditable="true" class="editable"><strong>Anglisht:</strong> Mesatar</li>
+                <li contenteditable="true" class="editable"><strong>Italisht:</strong> Mesatar</li>
+                <li contenteditable="true" class="editable"><strong>Frengjisht:</strong> Fillestar</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="print-button">
+          <button class="button" onclick="showPaymentModal()">Shkarko CV-në</button>
+        </div>
+      `;
+      
+      // Rivendos ngjarjet për upload të fotos
+      setupPhotoUpload();
+    }
+    
+    // Kthehu në layout-in origjinal
+    function removeClassicLayout() {
+      cvContent.innerHTML = originalCVContent;
+      setupPhotoUpload();
+    }
+    
+    function updateParticlesColor(design) {
+      let color;
+      switch(design) {
+        case '1': color = '#ff0000'; break; // German flag
+        case '2': color = '#0066ff'; break; // Neon blue
+        case '3': color = '#00ff00'; break; // Matrix green
+        case '4': color = '#3498db'; break; // Classic blue
+        case '5': color = '#ff6600'; break; // Cyberpunk orange
+        case '6': color = '#007aff'; break; // Kali Linux blue
+        case '7': color = '#007aff'; break; // Liquid Glass blue
+        default: color = '#ff0000';
+      }
+      
+      // Update particles color
+      if (window.pJSDom && window.pJSDom.length > 0) {
+        const pJS = window.pJSDom[0].pJS;
+        pJS.particles.color.value = color;
+        pJS.particles.line_linked.color = color;
+        pJS.fn.particlesRefresh();
+      }
+    }
+
+    // Funksionet për modalin e pagesës
+    function showPaymentModal() {
+      document.getElementById('payment-modal').style.display = 'flex';
+    }
+
+    function closePaymentModal() {
+      document.getElementById('payment-modal').style.display = 'none';
+    }
+
+    function selectPayment(amount) {
+      document.querySelectorAll('.payment-option').forEach(option => {
+        option.classList.remove('selected');
+      });
+      event.target.classList.add('selected');
+    }
+
+    function processPayment() {
+      document.getElementById('loading').style.display = 'flex';
+      closePaymentModal();
+      
+      // Simuloni një vonesë të shkarkimit
+      setTimeout(() => {
+        generatePDF();
+      }, 2000);
+    }
+
+    // Gjenero PDF - Rregulluar për një faqe të vetme
+    function generatePDF() {
+      const { jsPDF } = window.jspdf;
+      
+      // Fsheh elementët e redaktimit para se të kapësh screenshot
+      document.querySelectorAll('.add-language-btn, .add-skill-btn, .upload-btn, .edit-button, .language-slider, .design-panel, .print-button').forEach(el => {
+        el.style.visibility = 'hidden';
+      });
+      
+      // Fsheh fushat e rrjeteve sociale që nuk janë plotësuar
+      document.querySelectorAll('.social-input input').forEach(input => {
+        if (!input.value.trim()) {
+          input.closest('.social-input').style.display = 'none';
+        }
+      });
+      
+      // Merr përmasat e përmbajtjes
+      const content = document.getElementById('cv-content');
+      const width = content.scrollWidth;
+      const height = content.scrollHeight;
+      
+      // Krijo një canvas me përmasat e duhura
+      html2canvas(content, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: null,
+        width: width,
+        height: height
+      }).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('p', 'px', [width, height]);
+        
+        // Shto imazhin në PDF me përmasat e sakta
+        pdf.addImage(imgData, 'PNG', 0, 0, width, height);
+        
+        pdf.save('CV_Perparim_Nela.pdf');
+        document.getElementById('loading').style.display = 'none';
+        
+        // Shfaq përsëri elementët e redaktimit
+        document.querySelectorAll('.add-language-btn, .add-skill-btn, .upload-btn, .edit-button, .language-slider, .design-panel, .print-button').forEach(el => {
+          el.style.visibility = '';
+        });
+        
+        // Shfaq përsëri të gjitha fushat e rrjeteve sociale
+        document.querySelectorAll('.social-input').forEach(el => {
+          el.style.display = '';
+        });
+      });
+    }
+
+    // Përditëso nivelin e gjuhës
+    function updateLanguageLevel(slider) {
+      const percentage = slider.value;
+      const levelElement = slider.previousElementSibling;
+      const percentageElement = slider.parentElement.nextElementSibling;
+      
+      levelElement.style.width = `${percentage}%`;
+      percentageElement.textContent = `${percentage}%`;
+    }
+
+    // Shto gjuhë të re
+    function addNewLanguage() {
+      const languagesContainer = document.getElementById('languages-container');
+      const newLanguageItem = document.createElement('div');
+      newLanguageItem.className = 'language-item';
+      newLanguageItem.innerHTML = `
+        <div class="language-name" contenteditable="true">Gjuha e Re</div>
+        <div class="language-bar-container">
+          <div class="language-level" style="width: 50%"></div>
+          <input type="range" min="1" max="100" value="50" class="language-slider" oninput="updateLanguageLevel(this)">
+        </div>
+        <div class="language-percentage">50%</div>
+      `;
+      languagesContainer.appendChild(newLanguageItem);
+    }
+
+    // Shto aftësi të re
+    function addNewSkill(skillListId) {
+      const skillList = document.getElementById(skillListId);
+      const newSkillItem = document.createElement('li');
+      newSkillItem.contentEditable = true;
+      newSkillItem.classList.add('editable');
+      newSkillItem.textContent = 'Aftësi e re';
+      skillList.appendChild(newSkillItem);
+      
+      // Fokus te elementi i ri
+      setTimeout(() => {
+        newSkillItem.focus();
+      }, 10);
+    }
+
+    // Zgjero terminalin kur fokusohet tek përmbajtja e redaktueshme
+    function setupEditableListeners() {
+      document.querySelectorAll('.editable').forEach(editable => {
+        editable.addEventListener('focus', function() {
+          const terminalBody = this.closest('.terminal-body');
+          if (terminalBody) {
+            terminalBody.classList.add('expanded');
+          }
+        });
+        
+        editable.addEventListener('blur', function() {
+          const terminalBody = this.closest('.terminal-body');
+          if (terminalBody) {
+            terminalBody.classList.remove('expanded');
+          }
+        });
+      });
+    }
+
+    // Inicializo butonat e kontrollit të dritares
+    document.querySelector('.window-close')?.addEventListener('click', function() {
+      alert('Dritarja do të mbyllej në një aplikacion të vërtetë');
+    });
+
+    document.querySelector('.window-minimize')?.addEventListener('click', function() {
+      alert('Dritarja do të minimizohej në një aplikacion të vërtetë');
+    });
+
+    document.querySelector('.window-maximize')?.addEventListener('click', function() {
+      alert('Dritarja do të zmadhohej në një aplikacion të vërtetë');
+    });
+
+    // Inicializimi i gjuhës
+    document.addEventListener('DOMContentLoaded', function() {
+      changeLanguage('sq');
+      setupPhotoUpload();
+      setupEditableListeners();
+    });
+  </script>
 </body>
 </html>
